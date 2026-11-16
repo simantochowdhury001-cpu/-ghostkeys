@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "GhostKeys",
+  "short_name": "GhostKeys",
+  "description": "Offline coding keyboard panel and snippet vault",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#0A0C0A",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
