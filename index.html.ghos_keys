@@ -1,0 +1,258 @@
+# -ghostkeys<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0A0C0A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="GhostKeys">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Your offline coding scratchpad and snippet keyboard.">
+  <title>GhostKeys — Code at your fingertips</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./theme.css">
+  <script defer src="./rain.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+
+<body data-theme="matrix" data-motion="off">
+<canvas id="rain" aria-hidden="true"></canvas>
+<div class="scanlines" aria-hidden="true"></div>
+
+<main>
+  <header class="hero">
+    <div class="badges">
+      <span class="badge"><i></i> LOCAL / PRIVATE</span>
+      <span id="offline" class="badge">OFFLINE: CHECKING</span>
+    </div>
+
+    <p class="eyebrow">YOUR POCKET CODING COMPANION / V1.0</p>
+    <h1>GHOST<span>KEYS</span></h1>
+    <p class="outline" aria-hidden="true">CODE WITHOUT LIMITS</p>
+
+    <p class="tagline" aria-label="Your toolkit for Python, JavaScript, and your next idea.">
+      Your toolkit for
+      <strong id="typed" aria-hidden="true">Python.</strong><span class="cursor" aria-hidden="true">|</span>
+    </p>
+
+    <div class="stats" aria-label="App statistics">
+      <div>
+        <b id="snippetCount">0</b>
+        <small>SAVED SNIPPETS</small>
+      </div>
+      <div>
+        <b>26</b>
+        <small>QUICK SYMBOLS</small>
+      </div>
+      <div>
+        <b>03</b>
+        <small>COLOR THEMES</small>
+      </div>
+    </div>
+  </header>
+
+  <p class="notice">
+    A coding panel, not a system keyboard.
+    <strong>Copy here → switch to Codespaces → long-press Paste.</strong>
+  </p>
+
+  <section class="panel" aria-labelledby="editorTitle">
+    <div class="section-head">
+      <h2 id="editorTitle">01 / SCRATCHPAD</h2>
+      <span class="badge">LOCAL EDITOR</span>
+    </div>
+
+    <label class="sr-only" for="editor">Code scratchpad</label>
+    <textarea
+      id="editor"
+      inputmode="none"
+      spellcheck="false"
+      autocomplete="off"
+      autocapitalize="off"
+      autocorrect="off"
+      placeholder="// Build something that matters..."
+    ></textarea>
+
+    <div class="toolbar">
+      <button id="copyAll" class="primary">Copy code ↗</button>
+      <button id="paste">Paste here</button>
+      <button id="native">🌐 iPhone keys</button>
+    </div>
+
+    <div class="toolbar">
+      <button id="undo">Undo</button>
+      <button id="redo">Redo</button>
+      <button id="selectAll">Select all</button>
+    </div>
+  </section>
+
+  <p id="status" role="status" aria-live="polite">
+    Ready. Your code stays on this device.
+  </p>
+
+  <nav class="tabs" aria-label="Panel sections">
+    <button data-page="keyboard" aria-current="page">Keyboard</button>
+    <button data-page="snippets">Snippets</button>
+    <button data-page="settings">Settings</button>
+  </nav>
+
+  <section id="keyboard" class="panel page" aria-label="Coding keyboard">
+    <div class="ticker" aria-hidden="true">
+      <div>PYTHON ► JAVASCRIPT ► TYPESCRIPT ► AI &amp; ML ► WEB DEV ► ETHICAL HACKING ► PYTHON ► JAVASCRIPT ► TYPESCRIPT ► AI &amp; ML ► WEB DEV ► ETHICAL HACKING ► </div>
+    </div>
+
+    <p class="hint">All keys below edit this scratchpad only.</p>
+
+    <div id="navigation" class="navigation"></div>
+    <div id="symbols" class="symbols" aria-label="Quick symbols"></div>
+    <div id="combos" class="combos" aria-label="Local Ctrl shortcuts"></div>
+    <div id="letters" aria-label="QWERTY keyboard"></div>
+
+    <div class="bottom-keys">
+      <button id="shift" aria-pressed="false">Shift</button>
+      <button id="space">Space</button>
+      <button id="backspace" aria-label="Backspace">⌫</button>
+      <button id="enter">Return</button>
+    </div>
+  </section>
+
+  <section id="snippets" class="panel page" aria-labelledby="snippetsTitle" hidden>
+    <div class="section-head">
+      <h2 id="snippetsTitle">02 / SNIPPET VAULT</h2>
+      <button id="addSnippet" class="primary">+ Add</button>
+    </div>
+
+    <label for="search">Search name, trigger, language or code</label>
+    <input id="search" type="search" placeholder="Find your next shortcut…" autocomplete="off">
+
+    <div class="toolbar">
+      <button id="export">Export .txt ↗</button>
+      <button id="import">Import .txt ↙</button>
+      <input id="importFile" type="file" accept=".txt,.json,text/plain,application/json" hidden>
+    </div>
+
+    <p class="hint">
+      Insert places the cursor at the first |.
+      Copy removes that marker.
+      Clipboard text cannot carry a cursor position.
+    </p>
+
+    <div id="snippetList"></div>
+  </section>
+
+  <section id="settings" class="panel page" aria-labelledby="settingsTitle" hidden>
+    <h2 id="settingsTitle">03 / CONTROL ROOM</h2>
+
+    <label for="theme">Color theme</label>
+    <select id="theme">
+      <option value="matrix">Matrix Green</option>
+      <option value="cyber">Cyber Blue</option>
+      <option value="amber">Amber Terminal</option>
+    </select>
+
+    <label for="keySize">Key size</label>
+    <select id="keySize">
+      <option value="small">Small</option>
+      <option value="medium">Medium</option>
+      <option value="large">Large</option>
+    </select>
+
+    <label class="check">
+      <input id="autoPairs" type="checkbox">
+      Auto-close brackets and quotes
+    </label>
+
+    <label class="check">
+      <input id="haptics" type="checkbox">
+      Haptics when supported (unavailable in iPhone Safari)
+    </label>
+
+    <label class="check">
+      <input id="batterySaver" type="checkbox">
+      Battery Saver: fewer rain columns, lower frame rate
+    </label>
+
+    <p id="motionNote" class="hint"></p>
+
+    <details>
+      <summary>iPhone limits &amp; installation ▾</summary>
+      <p>
+        Add this page through Safari → Share → Add to Home Screen.
+        Wait for “OFFLINE: READY” before testing in airplane mode.
+      </p>
+      <p>
+        This panel cannot send key presses to another tab or app.
+        A same-page terminal needs its own input API and server connection.
+        No terminal or code execution is included.
+      </p>
+      <p>
+        The globe button opens the iPhone keyboard.
+        Use that keyboard’s globe to change languages.
+        Safari does not support web vibration.
+        System reduced-motion preferences override animation settings.
+      </p>
+      <p>
+        Storage may differ between Safari and the Home Screen app.
+        Export your snippets. iOS may clear cached data.
+      </p>
+    </details>
+  </section>
+
+  <footer>
+    GHOSTKEYS / NO ACCOUNTS. NO TRACKERS. JUST CODE.<br>
+    Export snippets regularly. This is not a code runner.
+  </footer>
+</main>
+
+<div class="motion-dock">
+  <span>
+    MOTION CONTROL
+    <small>Pause the glow. Keep the code.</small>
+  </span>
+
+  <button id="motion" class="motion-button" aria-label="Pause animations" aria-pressed="false">
+    <span id="motionGlyph" aria-hidden="true">Ⅱ</span>
+    <i aria-hidden="true"></i>
+  </button>
+</div>
+
+<dialog id="snippetDialog">
+  <form id="snippetForm">
+    <h2 id="dialogTitle">NEW SNIPPET</h2>
+
+    <label for="snippetName">Name</label>
+    <input id="snippetName" required maxlength="80">
+
+    <label for="snippetTrigger">Trigger (unique; no spaces)</label>
+    <input id="snippetTrigger" required maxlength="40" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder=";pr">
+
+    <label for="snippetLanguage">Language</label>
+    <select id="snippetLanguage">
+      <option>Python</option>
+      <option>JavaScript</option>
+      <option>TypeScript</option>
+      <option>Other</option>
+    </select>
+
+    <label for="snippetBody">Code (first | marks the cursor)</label>
+    <textarea id="snippetBody" required maxlength="100000" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
+
+    <p id="formError" role="alert"></p>
+
+    <div class="toolbar">
+      <button type="button" id="cancelSnippet">Cancel</button>
+      <button type="submit" class="primary">Save snippet ↗</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="clipboardDialog">
+  <h2>MANUAL COPY</h2>
+  <p>Touch and hold the selected text, then choose Copy.</p>
+  <textarea id="copyFallback" readonly aria-label="Text to copy"></textarea>
+  <button id="closeClipboard">Done</button>
+</dialog>
+</body>
+</html>
